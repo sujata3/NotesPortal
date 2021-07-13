@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Notes And Resource</title>
-</head>
-<body>
-<div class="card col-md-6 offset-3" style="margin-top: 40px;">
-  </div>
+@extends('layouts.app')
+
+@section('content')
+{{--<div class="card col-md-6 offset-3" style="margin-top: 40px;">--}}
+{{--  </div>--}}
 
 		<div class="card-header text-center">
             Notes and Resources
@@ -25,11 +22,7 @@
 
         <form method="post" action="{{route('data.store')}}">
             @csrf
-				<div class="form-group">
-					<label>ID:</label>
-					<input type="Integer" class="form-control" placeholder="please enter note ID" name="id"  required>
-                    <span style="color:red">@error('id'){{$message}} @enderror </span>
-				</div>
+
 				<div class="form-group">
 					<label>Title:</label>
 					<input type="text" class="form-control" placeholder="Enter note title" name="title"  required>
@@ -47,5 +40,4 @@
 				</div>
 			</form>
 		</div>
-</body>
-</html>
+@endsection
