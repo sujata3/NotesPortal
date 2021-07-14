@@ -20,7 +20,7 @@
     </div>
     @endif
 
-        <form method="post" action="{{route('data.store')}}">
+        <form method="post" action="{{route('data.store')}}" enctype="multipart/form-data">
             @csrf
 
 				<div class="form-group">
@@ -31,7 +31,8 @@
 				</div>
                 <div class="form-group">
 					<label>File:</label>
-					<input type="text" class="form-control" placeholder="Input file" name="file"  required>
+{{--					<input type="text" class="form-control" placeholder="file link or pdf" name="link"  required> <br>--}}
+                    <input type="file" name="file" required>
                     <span style="color:red">@error('password'){{$message}} @enderror </span>
 
 				</div>

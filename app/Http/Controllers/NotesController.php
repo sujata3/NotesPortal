@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NotesAndResources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,17 +15,28 @@ class NotesController extends Controller
     }
     public function store(Request $request)
     {
+        $data=new NotesAndResources();
             $request->validate([
-                'id'=>'required:Notes_and_resources',
                 'title'=>'required',
                 'file'=>'required'
             ]);
-            $query=DB::table('Notes_and_resources')->insert([
-                'id'=>$request->input('id'),
-                'title'=>$request->input('title'),
-                'file'=>$request->input('file')
-            ]);
-            if($query){
+
+            $file=$request->file;
+            $fileName= time().'.'.$file->getClientOriginalName();
+            $request->file->move('Files',$fileName);
+
+            $data->title=$request->title;
+            $data->file=$fileName;
+
+            $data->save();
+
+
+//            $query=DB::table('Notes_and_resources')->insert([
+//                'title'=>$request->input('title'),
+//                'file'=>$request->input('file')
+//            ]);
+
+            if($data){
                 return back()->with('success','successfully added');
             }
             else{
