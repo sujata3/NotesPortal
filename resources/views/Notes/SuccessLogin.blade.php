@@ -31,11 +31,16 @@
 				</div>
                 <div class="form-group">
 					<label>File:</label>
-{{--					<input type="text" class="form-control" placeholder="file link or pdf" name="link"  required> <br>--}}
                     <input type="file" name="file" required>
                     <span style="color:red">@error('password'){{$message}} @enderror </span>
-
 				</div>
+{{--            Or<br>--}}
+{{--            <div class="form-group">--}}
+{{--                <label>Link:</label>--}}
+{{--                <input type="text" class="form-control" placeholder="Provide file link" name="link">--}}
+
+
+{{--            </div>--}}
 				<div class="col-md-6 offset-5">
 					<button type="submit" class="btn btn-lg btn-primary" name="submit">Enter</button>
 				</div>
