@@ -26,13 +26,13 @@
 				<div class="form-group">
 					<label>Title:</label>
 					<input type="text" class="form-control" placeholder="Enter note title" name="title"  required>
-                    <span style="color:red">@error('password'){{$message}} @enderror </span>
+                    <span style="color:red">@error('title'){{$message}} @enderror </span>
 
 				</div>
                 <div class="form-group">
 					<label>File:</label>
                     <input type="file" name="file" required>
-                    <span style="color:red">@error('password'){{$message}} @enderror </span>
+                    <span style="color:red">@error('file'){{$message}} @enderror </span>
 				</div>
 {{--            Or<br>--}}
 {{--            <div class="form-group">--}}
