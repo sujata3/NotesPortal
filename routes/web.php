@@ -21,15 +21,30 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/Notes', [App\Http\Controllers\NotesController::class, 'get']);
-Route::post('/Notes',[App\Http\Controllers\NotesController::class, 'store']) ->name('data.store');
+//Notes and resources routes
 
-Route::get('/Show',[App\Http\Controllers\NotesController::class, 'ShowNotesList']) ->name('data.show');
+Route::get('/login',[App\Http\Controllers\HomeController::class, 'index'])->name('login');
+
+Route::get('/admin-panel',[App\Http\Controllers\NotesController::class, 'adminPanel'])->name('admin.panel');
+Route::get('/home',[App\Http\Controllers\NotesController::class, 'homePage'])->name('home.page');
+Route::get('/admin/notes',[App\Http\Controllers\NotesController::class, 'viewNotes'])->name('admin.viewNotes');
+
+Route::get('/admin/notes/add',[App\Http\Controllers\NotesController::class, 'addNoteForm'])->name('admin.addNotes');
+Route::post('/admin/notes', [App\Http\Controllers\NotesController::class, 'store'])->name('admin.notes.store');
+
+
+
+//other routes
+
+
+
 Route::get('/download/{file}',[App\Http\Controllers\NotesController::class, 'downloadFile']) ->name('data.download');
 Route::get('/view/{id}',[App\Http\Controllers\NotesController::class, 'view']) ->name('data.view');
 Route::get('/Update', [App\Http\Controllers\NotesController::class, 'notesUpdateList'])->name('note.update');
 Route::get('/Delete/{id}', [App\Http\Controllers\NotesController::class, 'delete'])->name('delete.note');
 Route::get('/Edit/{id}', [App\Http\Controllers\NotesController::class, 'edit'])->name('edit.note');
-Route::post('/UpdateData/{id}', [App\Http\Controllers\NotesController::class, 'updatedata'])->name('update.data');
+Route::post('/UpdateData/{id}', [App\Http\Controllers\NotesController::class, 'updateData'])->name('update.data');
 
+
+//logout
+Route::get('/logout',[App\Http\Controllers\NotesController::class, 'logout'])->name('admin.logout');

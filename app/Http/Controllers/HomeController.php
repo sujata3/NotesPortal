@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('Notes.SuccessLogin');
+        return view('auth.login');
+
     }
 }

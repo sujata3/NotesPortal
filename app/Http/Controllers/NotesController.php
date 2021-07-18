@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\NotesAndResources;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Stroage;
 use mysql_xdevapi\Exception;
 
@@ -13,86 +13,121 @@ use mysql_xdevapi\Exception;
 
 class NotesController extends Controller
 {
-    public function get()
+//   Login page
+
+
+//    main page
+
+    public function adminPanel()
     {
-        return view('Notes.SuccessLogin');
+        return view('Admin.admin-home');
     }
+
+//    home Page
+
+    public function homePage()
+    {
+        return view('home');
+    }
+
+//    Display available notes
+
+    public function viewNotes(){
+        //pull only non deleted data
+        $notes_resources = NotesAndResources::all();
+        return view('Notes.NotesAndResources', compact('notes_resources'));
+    }
+
+//    Add New Notes
+
+    public function addNoteForm()
+    {
+        return view('Notes.add-notes');
+    }
+
+//    Store notes in database
+
     public function store(Request $request)
     {
-        $data=new NotesAndResources();
-            $request->validate([
-                'title'=>'required',
-                'file'=>'required|mimes:pdf|max:2048',
+        $request->validate([
+            'title'=>'required',
+            'file'=>'required|mimes:pdf|max:100000',
 
-            ]);
-            $file=$request->file;
-            $fileName= time().'.'.$file->getClientOriginalName();
-            $request->file->move('Files',$fileName);
+        ]);
 
+        $NotesAndResources=new NotesAndResources();
+//        if($request->file->hasFile())
 
-            $data->title=$request->title;
-            $data->file=$fileName;
-
-            $data->save();
+        $file=$request->file;
+        $fileName=rand(100, 99999).'.'.$file->getClientOriginalName();
+        $request->file->move('Files',$fileName);
 
 
-//            $query=DB::table('Notes_and_resources')->insert([
-//                'title'=>$request->input('title'),
-//                'file'=>$request->input('file')
-//            ]);
+        $NotesAndResources->title=$request->title;
+        $NotesAndResources->file=$fileName;
 
-            if($data){
-                return back()->with('success','successfully added');
-            }
-            else{
-                return back()->with('fail','Something went wrong, try again');
-            }
+        $NotesAndResources->save();
+
+
+        if($NotesAndResources){
+
+            return redirect("/admin/notes")->with('data',$NotesAndResources);
         }
-        public function showNotesList(){
-        $data=NotesAndResources::all();
-        return view('Notes.NotesAndresources', compact('data'));
-
+        else{
+            return back()->with('fail','Something went wrong, try again');
         }
+    }
+
+
+//    Download note files
 
         public function downloadFile(Request $request, $file){
 
             return response()->download(public_path('Files/'.$file));
+     }
 
-
-        }
+//    View note files
 
         Public function view($id){
-        $data=NotesAndResources::find($id);
-        return view('Notes.ViewNotes', compact('data'));
+        $NotesAndResources=NotesAndResources::find($id);
+        return view('Notes.ViewNotes', compact('NotesAndResources'));
         }
-//
+
+//Update Note page
+
     public function notesUpdateList(){
-        $data=NotesAndResources::all();
-        return view('EditAndDelete.NotesEdit', compact('data'));
+        $NotesAndResources=NotesAndResources::all();
+        return view('EditAndDelete.NotesEdit', compact('NotesAndResources'));
 
     }
+
+//    delete notes
+
     public function delete($id)
     {
-       $data = NotesAndResources::find($id);
-       if(!is_null($data)){
-           $data->delete();
+        $NotesAndResources = NotesAndResources::find($id);
+       if(!is_null($NotesAndResources)){
+           $NotesAndResources->delete();
        }
         return redirect()->back();
     }
+
+//    edit notes
+
     public function edit($id)
     {
-        $data = NotesAndResources::find($id);
+        $NotesAndResources = NotesAndResources::find($id);
 
-        return view('EditAndDelete.UpdatePage')-> with('data',$data);
+        return view('EditAndDelete.UpdatePage')-> with('NotesAndResources',$NotesAndResources);
 
 
     }
-    public function updatedata(Request $request,$id)
+    public function updateData(Request $request,$id)
     {
-        $data=NotesAndResources::find($id);
+        $NotesAndResources=NotesAndResources::find($id);
         $request->validate([
             'title'=>'required',
-            'file'=>'required|mimes:pdf|max:2048',
+            'file'=>'required|mimes:pdf|max:20000',
 
         ],
             [
@@ -104,22 +139,27 @@ class NotesController extends Controller
             $file=$request->file;
             $fileName= time().'.'.$file->getClientOriginalName();
             $request->file->move('Files',$fileName);
-            $data->file=$fileName;
+            $NotesAndResources->file=$fileName;
         }
 
 
 
-        $data->title=$request->title;
+        $NotesAndResources->title=$request->title;
 
 
-        $data->save();
+        $NotesAndResources->save();
 
-        if($data){
-            return redirect("/Update")->with('data',$data);
+        if($NotesAndResources){
+            return redirect("/Update")->with('data',$NotesAndResources);
         }
         else{
             return back()->with('update_fail','Something went wrong, try again');
         }
+    }
+
+    public function logout()
+    {
+        return view(auth.login);
     }
 }
 
