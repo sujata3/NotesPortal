@@ -1,7 +1,12 @@
-@extends('layouts.app')
+@extends('Admin.admin-panel')
 @section('content')
 
-    <table border="5px;" width="100%">
+<div class="container-fluid mt-5">
+    <h3>Editable notes</h3>
+
+    <div class="table-responsive" >
+        <table class="table table-hover">
+
         <tr>
             <th>ID</th>
             <th>Title</th>
@@ -16,12 +21,13 @@
                 <td>{{$notes_data->file}}</td>
                 <td>{{$notes_data->link}}</td>
                 <td>
-                    <a href="{{route('edit.note',['id'=> $notes_data->id])}}"><button class="btn btn-success">Edit</button> </a> ||
-                    <a href="{{route('delete.note',['id'=> $notes_data->id])}}"><button class="btn btn-danger">Delete</button></a>
+                    <a href="{{route('edit.note',['id'=> $notes_data->id])}}"><i class="fas fa-spell-check"></i> Edit</a> | |
+                    <a href="{{route('delete.note',['id'=> $notes_data->id])}}"><i class="fas fa-trash-alt"></i> Delete</a>
                 </td>
             </tr>
         @endforeach
     </table>
+    </div>
+</div>
     <br>
-    <a href="{{url('/admin/notes')}}"><button class="btn btn-lg btn-success">View Notes</button></a>
 @endsection

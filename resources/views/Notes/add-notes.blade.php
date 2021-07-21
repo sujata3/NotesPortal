@@ -1,12 +1,13 @@
-@extends('layouts.app')
-@guest()
-@endguest
+@extends('Admin.admin-panel')
 @section('content')
-    {{--<div class="card col-md-6 offset-3" style="margin-top: 40px;">--}}
-    {{--  </div>--}}
+    <div class="container-fluid mt-5">
+
+
+        <div class="table-responsive" >
+
 
     <div class="card-header text-center">
-        Notes and Resources
+        Add new notes
     </div>
     <div class="card-body">
         @if(Session::has('success'))
@@ -32,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label>File:</label>
-                <input type="file" name="file" required>
+                <input type="file" name="file">
                 <span style="color:red">@error('file'){{$message}} @enderror </span>
             </div>
                         Or<br>
@@ -46,5 +47,7 @@
                 <button type="submit" class="btn btn-lg btn-primary" name="submit">Enter</button>
             </div>
         </form>
+    </div>
+        </div>
     </div>
 @endsection

@@ -23,14 +23,14 @@ Auth::routes();
 
 //Notes and resources routes
 
-Route::get('/login',[App\Http\Controllers\HomeController::class, 'index'])->name('login');
+Route::get('/login',[App\Http\Controllers\NotesController::class, 'index'])->name('login');
 
-Route::get('/admin-panel',[App\Http\Controllers\NotesController::class, 'adminPanel'])->name('admin.panel');
-Route::get('/home',[App\Http\Controllers\NotesController::class, 'homePage'])->name('home.page');
-Route::get('/admin/notes',[App\Http\Controllers\NotesController::class, 'viewNotes'])->name('admin.viewNotes');
+//Route::get('/admin-panel',[App\Http\Controllers\NotesController::class, 'adminPanel'])->name('admin.panel');
+Route::get('/home',[App\Http\Controllers\NotesController::class, 'homePage'])->name('home.page')->middleware('auth');
+Route::get('/admin/notes',[App\Http\Controllers\NotesController::class, 'viewNotes'])->name('admin.viewNotes')->middleware('auth');
 
-Route::get('/admin/notes/add',[App\Http\Controllers\NotesController::class, 'addNoteForm'])->name('admin.addNotes');
-Route::post('/admin/notes', [App\Http\Controllers\NotesController::class, 'store'])->name('admin.notes.store');
+Route::get('/admin/notes/add',[App\Http\Controllers\NotesController::class, 'addNoteForm'])->name('admin.addNotes')->middleware('auth');
+Route::post('/admin/notes', [App\Http\Controllers\NotesController::class, 'store'])->name('admin.notes.store')->middleware('auth');
 
 
 

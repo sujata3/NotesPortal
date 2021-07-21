@@ -1,11 +1,17 @@
-@extends('layouts.app')
+@extends('Admin.admin-panel')
+
 
 @section('content')
 
+    <div class="container-fluid mt-5">
 
-    <div class="card-header text-center">
-        Edit
-    </div>
+
+        <div class="table-responsive" >
+
+
+            <div class="card-header text-center">
+                Edit Note
+            </div>
     <div class="card-body">
         @if(Session::has('update_fail'))
             <div class="alert alert-danger">
@@ -24,14 +30,14 @@
             </div>
             <div class="form-group">
                 <label>File:</label>
-                <input type="file" value="{{$NotesAndResources->file}}" name="file" required>
+                <input type="file" value="{{$NotesAndResources->file}}" name="file" >
                 <div style="color:red">@error('file'){{$message}} @enderror </div>
 
             </div>
                         Or<br>
                         <div class="form-group">
                             <label>Link:</label>
-                            <input type="text" class="form-control" placeholder="Provide file link" name="link">
+                            <input type="text"value="{{$NotesAndResources->link}}" class="form-control"  name="link">
 
 
                         </div>

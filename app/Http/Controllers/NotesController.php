@@ -14,20 +14,24 @@ use mysql_xdevapi\Exception;
 class NotesController extends Controller
 {
 //   Login page
+    public function index()
+    {
+        return view('auth.login');
 
+    }
 
 //    main page
 
-    public function adminPanel()
-    {
-        return view('Admin.admin-home');
-    }
+//    public function adminPanel()
+//    {
+//        return view('Admin.admin-home');
+//    }
 
 //    home Page
 
     public function homePage()
     {
-        return view('home');
+        return view('Admin.admin-home');
     }
 
 //    Display available notes
@@ -51,20 +55,25 @@ class NotesController extends Controller
     {
         $request->validate([
             'title'=>'required',
-            'file'=>'required|mimes:pdf|max:100000',
+            'file'=>'mimes:pdf|max:100000',
 
         ]);
-
+            if(empty($request->file) && empty($request->link)){
+                return back()->with('fail','Please attach a pdf file or provide a link');
+            }
         $NotesAndResources=new NotesAndResources();
 //        if($request->file->hasFile())
-
-        $file=$request->file;
-        $fileName=rand(100, 99999).'.'.$file->getClientOriginalName();
-        $request->file->move('Files',$fileName);
-
-
+        if($request->hasfile('file')) {
+            $file = $request->file;
+            $fileName = rand(100, 99999) . '.' . $file->getClientOriginalName();
+            $request->file->move('Files', $fileName);
+            $NotesAndResources->file=$fileName;
+        }
+        if($request->has('link')){
+            $NotesAndResources->link=$request->link;
+        }
         $NotesAndResources->title=$request->title;
-        $NotesAndResources->file=$fileName;
+
 
         $NotesAndResources->save();
 
@@ -127,21 +136,25 @@ class NotesController extends Controller
         $NotesAndResources=NotesAndResources::find($id);
         $request->validate([
             'title'=>'required',
-            'file'=>'required|mimes:pdf|max:20000',
+            'file'=>'mimes:pdf|max:20000',
 
         ],
             [
                 'file.required' => 'Please upload pdf files only.'
-            ]
+            ]);
 
-        );
+        if(empty($request->file) && empty($request->link)){
+            return back()->with('fail','Please attach a pdf file or provide a link');
+        }
         if($request->hasfile('file')){
             $file=$request->file;
             $fileName= time().'.'.$file->getClientOriginalName();
             $request->file->move('Files',$fileName);
             $NotesAndResources->file=$fileName;
         }
-
+        if($request->has('link')){
+            $NotesAndResources->link=$request->link;
+        }
 
 
         $NotesAndResources->title=$request->title;
