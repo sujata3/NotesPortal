@@ -20,26 +20,27 @@ class NotesController extends Controller
 
     }
 
-//    main page
-
-//    public function adminPanel()
-//    {
-//        return view('Admin.admin-home');
-//    }
 
 //    home Page
 
     public function homePage()
     {
         return view('Admin.admin-home');
+
     }
 
 //    Display available notes
 
     public function viewNotes(){
-        //pull only non deleted data
         $notes_resources = NotesAndResources::all();
         return view('Notes.NotesAndResources', compact('notes_resources'));
+    }
+
+    //    Display available notes in welcomePage
+
+    public function showNotes(){
+        $notes_resources = NotesAndResources::all();
+        return view('welcome', compact('notes_resources'));
     }
 
 //    Add New Notes
@@ -80,13 +81,17 @@ class NotesController extends Controller
 
         if($NotesAndResources){
 
-            return redirect("/admin/notes")->with('data',$NotesAndResources);
+            return redirect("/admin/notes")->with('data',$NotesAndResources)->with('success', 'File added successfully');
         }
         else{
             return back()->with('fail','Something went wrong, try again');
         }
     }
-
+    
+            Public function openLink($id){
+                $NotesAndResources=NotesAndResources::find($id);
+                return view('Notes.ViewNotes', compact('NotesAndResources'));
+                }
 
 //    Download note files
 
@@ -101,6 +106,9 @@ class NotesController extends Controller
         $NotesAndResources=NotesAndResources::find($id);
         return view('Notes.ViewNotes', compact('NotesAndResources'));
         }
+
+
+
 
 //Update Note page
 
@@ -151,6 +159,7 @@ class NotesController extends Controller
             $fileName= time().'.'.$file->getClientOriginalName();
             $request->file->move('Files',$fileName);
             $NotesAndResources->file=$fileName;
+           
         }
         if($request->has('link')){
             $NotesAndResources->link=$request->link;
@@ -163,7 +172,7 @@ class NotesController extends Controller
         $NotesAndResources->save();
 
         if($NotesAndResources){
-            return redirect("/Update")->with('data',$NotesAndResources);
+            return redirect("/Update")->with('data',$NotesAndResources)->with('success', 'File updated successfully');
         }
         else{
             return back()->with('update_fail','Something went wrong, try again');
@@ -172,7 +181,7 @@ class NotesController extends Controller
 
     public function logout()
     {
-        return view(auth.login);
+        return view('auth.login');
     }
 }
 

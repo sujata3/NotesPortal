@@ -7,8 +7,9 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -20,19 +21,18 @@
                 font-family: 'Nunito', sans-serif;
             }
 
-            .logo{
-                font-size: 230px!important;
-                position: fixed;
-                margin-bottom: 250px;
-                color: #a446d5;
 
-            }
+
             .hidden a{
                 font-size: 20px;
-                color: #c9e3f5;
+                color: #000000;
             }
             .relative{
-                background-color: black;
+                background-color: #9aeaf3;
+            }
+            .table{
+                color:black;
+                position: fixed;
             }
         </style>
 
@@ -40,26 +40,52 @@
     </head>
     <body class="antialiased">
 
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            <div class="logo">
-                <a><i class="fab fa-laravel"></i></a>
+    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+        @if (Route::has('login'))
+            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                @auth
+                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
+                @else
+                    <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                    @endif
+                @endauth
             </div>
-            @if (Route::has('login'))
-                <div class="hidden fixed justify-center px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline"><i class="fas fa-sign-in-alt"></i>
-                            Log in</a>
+        @endif
+        <div class="container-fluid fixed top-10 ">
+            <h3>All available notes</h3>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline"><i class="fas fa-file-signature"></i>
-                                Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+            <div class="table-responsive" >
+                <table class="table table-hover">
+                    <thead >
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>File</th>
+                        <th>Link</th>
+                        <th>View</th>
+                        <th>Download</th>
+                    </tr>
+                    </thead>
+
+                    @foreach($notes_resources as $Notes)
+                        <tr>
+                            <td>{{$Notes->id}}</td>
+                            <td>{{$Notes->title}}</td>
+                            <td>{{$Notes->file}}</td>
+                            <td><a href="{{url('/link')}}">{{$Notes->link}}</a></td>
+                            <td><a href="{{url('/view', $Notes->id)}}"><i class="fas fa-eye"></i></a></td>
+
+                            <td><a href="{{url('/download', $Notes->file)}}"><i class="fas fa-download"></i></a></td>
+
+                        </tr>
+
+                    @endforeach
+                </table>
+            </div>
         </div>
-
+    </div>
     </body>
 </html>

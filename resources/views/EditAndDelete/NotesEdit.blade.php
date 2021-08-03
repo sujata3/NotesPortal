@@ -1,5 +1,10 @@
 @extends('Admin.admin-panel')
 @section('content')
+@if(Session::has('success'))
+            <div class="alert alert-success">
+                {{Session::get('success')}}
+            </div>
+            @endif
 
 <div class="container-fluid mt-5">
     <h3>Editable notes</h3>
