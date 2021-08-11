@@ -26,7 +26,7 @@
                 <td>{{$notes_data->file}}</td>
                 <td>{{$notes_data->link}}</td>
                 <td>
-                    <a href="{{route('edit.note',['id'=> $notes_data->id])}}"><i class="fas fa-spell-check"></i> Edit</a> | |
+                    <a href="{{route('edit.note',['id'=> $notes_data->id])}}"><i class="fas fa-spell-check"></i> Edit</a> ||
                     <a href="{{route('delete.note',['id'=> $notes_data->id])}}"><i class="fas fa-trash-alt"></i> Delete</a>
                 </td>
             </tr>

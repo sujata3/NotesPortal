@@ -36,7 +36,7 @@ Route::post('/admin/notes', [App\Http\Controllers\NotesController::class, 'store
 //other routes
 
 
-Route::get('/link/{id}',[App\Http\Controllers\NotesController::class, 'openLink']) ->name('open.link');
+Route::get('{link}',[App\Http\Controllers\NotesController::class, 'openLink']) ->name('open.link');
 Route::get('/download/{file}',[App\Http\Controllers\NotesController::class, 'downloadFile']) ->name('data.download');
 Route::get('/view/{id}',[App\Http\Controllers\NotesController::class, 'view']) ->name('data.view');
 Route::get('/Update', [App\Http\Controllers\NotesController::class, 'notesUpdateList'])->name('note.update');

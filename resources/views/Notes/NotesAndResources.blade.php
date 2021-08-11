@@ -27,12 +27,34 @@
                     <tr>
                         <td>{{$Notes->id}}</td>
                         <td>{{$Notes->title}}</td>
+                    @if($Notes->file != null)
                         <td>{{$Notes->file}}</td>
-                        <td><a href="{{url('/link', $Notes->id)}}"target="_blank">{{$Notes->link}}</a></td>
+                    @else
+                        <td>N/A</td>
+                    @endif
+                    
+                    @if($Notes->link != null)
+                        <td><a href="{{url('/link', $Notes->link)}}"target="_blank">{{$Notes->link}}</a></td>
+                     @else
+                     <td>N/A</td>   
+                     @endif
+
+                    @if($Notes->file != null)
                         <td><a href="{{url('/view', $Notes->id)}}" target="_blank"><i class="fas fa-eye"></i></a></td>
+                    
+                    @else
+                        <td>N/A</td>
+                    
+                    @endif
 
+                    @if($Notes->file != null)
+                    
                         <td><a href="{{url('/download', $Notes->file)}}"><i class="fas fa-download"></i></a></td>
-
+                    
+                    @else
+                        <td>N/A</td>
+                    
+                    @endif
                     </tr>
 
                 @endforeach
